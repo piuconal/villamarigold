@@ -165,6 +165,5 @@ flatpickr("#departure-date", {
       duration: 1000,
       once: true,
     });
-
   });
 })(jQuery);
