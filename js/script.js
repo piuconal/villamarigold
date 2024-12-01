@@ -1,57 +1,106 @@
+const scriptURL =
+  "https://script.google.com/macros/s/AKfycbwxUNTxTvkIz8o6ZuNQRnCDN1brWXx6pHC4NrlF_o_nVsMdypg6Sjp8asISDl_ZwnH7sQ/exec";
+
+document.getElementById("submit-btn").addEventListener("click", async () => {
+  const payload = {
+    arrival_date: document.getElementById("arrival-date").value,
+    departure_date: document.getElementById("departure-date").value,
+    room_type: document.getElementById("room-type").value,
+    quantity: document.getElementById("quantity").value,
+  };
+
+  try {
+    const response = await fetch(scriptURL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (response.ok) {
+      const result = await response.json();
+      console.log("Success:", result);
+      alert("Thông tin đã được gửi thành công!");
+    } else {
+      console.error("Error:", response.statusText);
+      alert("Có lỗi xảy ra, vui lòng thử lại.");
+    }
+  } catch (error) {
+    console.error("Fetch error:", error);
+    alert("Không thể kết nối tới máy chủ.");
+  }
+});
+
+flatpickr("#arrival-date", {
+  locale: "vn", // Đặt ngôn ngữ là tiếng Việt
+  dateFormat: "d-m-Y", // Định dạng ngày (ngày-tháng-năm)
+  allowInput: true,
+});
+
+flatpickr("#departure-date", {
+  locale: "vn", // Đặt ngôn ngữ là tiếng Việt
+  dateFormat: "d-m-Y", // Định dạng ngày (ngày-tháng-năm)
+  allowInput: true,
+});
+
 (function ($) {
   "use strict";
 
   var initPreloader = function () {
     $(document).ready(function () {
-      var Body = $('body');
-      Body.addClass('preloader-site');
+      var Body = $("body");
+      Body.addClass("preloader-site");
     });
-    $(window).on('load', function () {
-      $('.preloader').fadeOut();
-      $('body').removeClass('preloader-site');
+    $(window).on("load", function () {
+      $(".preloader").fadeOut();
+      $("body").removeClass("preloader-site");
     });
-  }
+  };
 
   // init Chocolat light box
   var initChocolat = function () {
-    Chocolat(document.querySelectorAll('.image-link'), {
-      imageSize: 'contain',
+    Chocolat(document.querySelectorAll(".image-link"), {
+      imageSize: "contain",
       loop: true,
-    })
-  }
+    });
+  };
 
   $(document).ready(function () {
     // Isotope Initialization
-    var $container = $('.isotope-container').isotope({
-      itemSelector: '.item',
-      layoutMode: 'masonry',
+    var $container = $(".isotope-container").isotope({
+      itemSelector: ".item",
+      layoutMode: "masonry",
     });
 
     // Filter items on button click
-    $('.filter-button').click(function () {
-      var filterValue = $(this).attr('data-filter');
-      if (filterValue === '*') {
-        $container.isotope({ filter: '*' });
+    $(".filter-button").click(function () {
+      var filterValue = $(this).attr("data-filter");
+      if (filterValue === "*") {
+        $container.isotope({ filter: "*" });
       } else {
         $container.isotope({ filter: filterValue });
       }
-      $('.filter-button').removeClass('active');
-      $(this).addClass('active');
+      $(".filter-button").removeClass("active");
+      $(this).addClass("active");
     });
 
     // Video Modal
     var $videoSrc;
-    $('.play-btn').click(function () {
+    $(".play-btn").click(function () {
       $videoSrc = $(this).data("src");
     });
 
-    $('#myModal').on('shown.bs.modal', function (e) {
-      $("#video").attr('src', $videoSrc + "?autoplay=1&amp;modestbranding=1&amp;showinfo=0");
-    })
+    $("#myModal").on("shown.bs.modal", function (e) {
+      $("#video").attr(
+        "src",
+        $videoSrc + "?autoplay=1&amp;modestbranding=1&amp;showinfo=0"
+      );
+    });
 
-    $('#myModal').on('hide.bs.modal', function (e) {
-      $("#video").attr('src', $videoSrc);
-    })
+    $("#myModal").on("hide.bs.modal", function (e) {
+      $("#video").attr("src", $videoSrc);
+    });
 
     // Swiper Initialization
     var sliderSwiper = new Swiper(".slider", {
@@ -99,7 +148,7 @@
       autoplay: true,
       loop: true,
       spaceBetween: 10,
-      effect: 'fade',
+      effect: "fade",
       thumbs: {
         swiper: thumbSlider,
       },
@@ -118,7 +167,7 @@
     });
 
     // DateTimePicker
-    new DateTimePickerComponent.DatePicker('select-arrival-date');
-    new DateTimePickerComponent.DatePicker('select-departure-date');
+    new DateTimePickerComponent.DatePicker("select-arrival-date");
+    new DateTimePickerComponent.DatePicker("select-departure-date");
   });
 })(jQuery);
