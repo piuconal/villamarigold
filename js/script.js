@@ -166,8 +166,5 @@ flatpickr("#departure-date", {
       once: true,
     });
 
-    // DateTimePicker
-    new DateTimePickerComponent.DatePicker("select-arrival-date");
-    new DateTimePickerComponent.DatePicker("select-departure-date");
   });
 })(jQuery);
